@@ -6,7 +6,13 @@ This project is my particular solution to the challenge made by fernandev!
 
 ### Challenge Tasks:
 
-* The login button should trigger "function login()" and get necessary data. ✅ </p> 
+* The login button should trigger "function login()" and pass necessary data. ✅ </p> 
+* Disable login button in case of email isn't filled or password is lass than 6 digits. ✅ </p> 
+* The login button should be disabled when waiting for login. ✅ </p> 
+* Should show login failed message if login fails. ✅ </p> 
+* Should show login success message (javascript alert). Use the "function login()" to make request works. ✅ </p> 
+
+
 
 
 ## ⚒️: Ferramentas que utilizadas:
