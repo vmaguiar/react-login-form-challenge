@@ -1,7 +1,3 @@
-import { login } from './utils';
-import './index.css';
-import { useState } from 'react';
-
 // Instruções:
 // * Você tem um formulário de login INCOMPLETO
 // * Não é permitido adicionar novos elementos HTML
@@ -14,7 +10,37 @@ import { useState } from 'react';
 // todo - Mostre uma mensagem de erro de login() caso o Login falhe. A mensagem deve ser limpa a cada nova tentativa de Login.
 // todo - Mostre um alerta caso o login seja efetuado com sucesso (javascript alert). Investigue a função login() para entender como ter sucesso na requisição.
 
+
+import { login } from './utils';
+import { useState } from 'react';
+
+import './index.css';
+
+
 export default function LoginForm() {
+  const [loginState, setLoginState] = useState({
+    email: '',
+    password: ''
+  })
+
+  const handleOnChange = (event) => {
+    const {value, id} = event.target
+    // console.log(`${event.target.id}: ${event.target.value}`)
+    // console.log(event)
+
+    setLoginState((oldLogin) => {
+      const newLogin = {...oldLogin, [id]: value}
+
+      return newLogin
+    })
+  }
+
+  const handleOnClick = () => {
+    // const {email, password} = loginState
+    // console.log(`${loginState.email} : ${loginState.password}`)
+    login(loginState)
+  }
+
   return (
     <div className='wrapper'>
       <div className='login-form'>
@@ -23,15 +49,28 @@ export default function LoginForm() {
         <div className='errorMessage'></div>
         <div className='row'>
           <label htmlFor={'email'}>Email</label>
-          <input id={'email'} type={'email'} autoComplete='off' />
+          <input
+            id={'email'}
+            type={'email'}
+            autoComplete='off'
+            value={loginState.email}
+            onChange={handleOnChange}
+          />
         </div>
         <div className='row'>
           <label htmlFor={'password'}>Password</label>
-          <input id={'password'} type={'password'} />
+          <input
+            id={'password'}
+            type={'password'}
+            value={loginState.password}
+            onChange={handleOnChange}
+          />
         </div>
 
         <div className='button'>
-          <button>Login</button>
+          <button onClick={handleOnClick}>
+            Login
+          </button>
         </div>
       </div>
     </div>
