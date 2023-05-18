@@ -1,7 +1,3 @@
-import { login } from './utils';
-import './index.css';
-import { useState } from 'react';
-
 // Instruções:
 // * Você tem um formulário de login INCOMPLETO
 // * Não é permitido adicionar novos elementos HTML
@@ -14,24 +10,82 @@ import { useState } from 'react';
 // todo - Mostre uma mensagem de erro de login() caso o Login falhe. A mensagem deve ser limpa a cada nova tentativa de Login.
 // todo - Mostre um alerta caso o login seja efetuado com sucesso (javascript alert). Investigue a função login() para entender como ter sucesso na requisição.
 
+
+import { login } from './utils';
+import { useState } from 'react';
+
+import './index.css';
+
+
 export default function LoginForm() {
+
+  const [loginState, setLoginState] = useState({
+    email: '',
+    password: '',
+    loginErrorMsg: ''
+  })
+
+  const handleOnChange = (event) => {
+    const {value, id} = event.target
+    // console.log(`${event.target.id}: ${event.target.value}`)
+    // console.log(event)
+
+    setLoginState((oldLogin) => {
+      const newLogin = {...oldLogin, [id]: value, loginErrorMsg: ''}
+
+      return newLogin
+    })
+  }
+
+  const handleOnClick = () => {
+    // const {email, password} = loginState
+    // console.log(`${loginState.email} : ${loginState.password}`)
+    login(loginState)
+      .then(() => {
+        alert('logado com sucesso!!')
+      })
+      .catch(({message}) => {
+        setLoginState((oldLogin) => {
+          const newLogin = {...oldLogin, loginErrorMsg: message}
+          return newLogin
+        })
+      })
+  }
+
+  // const handleDisabledBtn = () => {
+  // }
+
+
   return (
     <div className='wrapper'>
       <div className='login-form'>
         <h1>Login Form 🐞</h1>
         {/* Coloque a mensagem de erro de login na div abaixo. Mostre a div somente se houver uma mensagem de erro. */}
-        <div className='errorMessage'></div>
+        {loginState.loginErrorMsg && <div className='errorMessage'>{loginState.loginErrorMsg}</div>}
         <div className='row'>
           <label htmlFor={'email'}>Email</label>
-          <input id={'email'} type={'email'} autoComplete='off' />
+          <input
+            id={'email'}
+            type={'email'}
+            autoComplete='off'
+            value={loginState.email}
+            onChange={handleOnChange}
+          />
         </div>
         <div className='row'>
           <label htmlFor={'password'}>Password</label>
-          <input id={'password'} type={'password'} />
+          <input
+            id={'password'}
+            type={'password'}
+            value={loginState.password}
+            onChange={handleOnChange}
+          />
         </div>
 
         <div className='button'>
-          <button>Login</button>
+          <button onClick={handleOnClick} disabled={!loginState.email || loginState.password.length < 6}>
+            Login
+          </button>
         </div>
       </div>
     </div>
