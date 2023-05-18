@@ -42,7 +42,7 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 3px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -50,15 +50,20 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-  background-color: #f9f9f9;
+  background-color: #767cf9;
   display: block;
   width: 100%;
 }
-button:hover {
-  background: #f3f3f3;
+button:not([disabled]):hover {
+  background: #b4b7fb;
 }
 button:active {
   border-color: #646cff;
+}
+button:disabled {
+  cursor: not-allowed;
+  border-color: transparent;
+  background: #f1f1f1
 }
 label {
   display: block;
