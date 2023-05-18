@@ -18,9 +18,11 @@ import './index.css';
 
 
 export default function LoginForm() {
+
   const [loginState, setLoginState] = useState({
     email: '',
-    password: ''
+    password: '',
+    loginErrorMsg: ''
   })
 
   const handleOnChange = (event) => {
@@ -29,7 +31,7 @@ export default function LoginForm() {
     // console.log(event)
 
     setLoginState((oldLogin) => {
-      const newLogin = {...oldLogin, [id]: value}
+      const newLogin = {...oldLogin, [id]: value, loginErrorMsg: ''}
 
       return newLogin
     })
@@ -39,14 +41,27 @@ export default function LoginForm() {
     // const {email, password} = loginState
     // console.log(`${loginState.email} : ${loginState.password}`)
     login(loginState)
+      .then(() => {
+        alert('logado com sucesso!!')
+      })
+      .catch(({message}) => {
+        setLoginState((oldLogin) => {
+          const newLogin = {...oldLogin, loginErrorMsg: message}
+          return newLogin
+        })
+      })
   }
+
+  // const handleDisabledBtn = () => {
+  // }
+
 
   return (
     <div className='wrapper'>
       <div className='login-form'>
         <h1>Login Form 🐞</h1>
         {/* Coloque a mensagem de erro de login na div abaixo. Mostre a div somente se houver uma mensagem de erro. */}
-        <div className='errorMessage'></div>
+        {loginState.loginErrorMsg && <div className='errorMessage'>{loginState.loginErrorMsg}</div>}
         <div className='row'>
           <label htmlFor={'email'}>Email</label>
           <input
@@ -68,7 +83,7 @@ export default function LoginForm() {
         </div>
 
         <div className='button'>
-          <button onClick={handleOnClick}>
+          <button onClick={handleOnClick} disabled={!loginState.email || loginState.password.length < 6}>
             Login
           </button>
         </div>
