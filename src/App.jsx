@@ -25,6 +25,9 @@ export default function LoginForm() {
     loginErrorMsg: ''
   })
 
+  const [requesting, setRequisting] = useState(false)
+
+
   const handleOnChange = (event) => {
     const {value, id} = event.target
     // console.log(`${event.target.id}: ${event.target.value}`)
@@ -40,6 +43,9 @@ export default function LoginForm() {
   const handleOnClick = () => {
     // const {email, password} = loginState
     // console.log(`${loginState.email} : ${loginState.password}`)
+
+    setRequisting(true)
+
     login(loginState)
       .then(() => {
         alert('logado com sucesso!!')
@@ -49,7 +55,7 @@ export default function LoginForm() {
           const newLogin = {...oldLogin, loginErrorMsg: message}
           return newLogin
         })
-      })
+      }).finally(() => setRequisting(false))
   }
 
   // const handleDisabledBtn = () => {
@@ -83,7 +89,7 @@ export default function LoginForm() {
         </div>
 
         <div className='button'>
-          <button onClick={handleOnClick} disabled={!loginState.email || loginState.password.length < 6}>
+          <button onClick={handleOnClick} disabled={!loginState.email || loginState.password.length < 6 || requesting}>
             Login
           </button>
         </div>
